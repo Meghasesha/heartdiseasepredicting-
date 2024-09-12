@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <!-- Link to the favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <h1>Heart Disease Prediction</h1>
+    <form action="/predict" method="post">
+        <label>Age:</label>
+        <input type="number" name="age" step="any" required><br>
+        <label>Sex (1 = Male, 0 = Female):</label>
+        <input type="number" name="sex" step="any" required><br>
+        <label>Chest Pain Type:</label>
+        <input type="number" name="cp" step="any" required><br>
+        <label>Resting Blood Pressure:</label>
+        <input type="number" name="trtbps" step="any" required><br>
+        <label>Cholesterol:</label>
+        <input type="number" name="chol" step="any" required><br>
+        <label>Fasting Blood Sugar (1 = True, 0 = False):</label>
+        <input type="number" name="fbs" step="any" required><br>
+        <label>Resting ECG:</label>
+        <input type="number" name="restecg" step="any" required><br>
+        <label>Max Heart Rate Achieved:</label>
+        <input type="number" name="thalachh" step="any" required><br>
+        <label>Exercise-Induced Angina (1 = Yes, 0 = No):</label>
+        <input type="number" name="exng" step="any" required><br>
+        <label>ST Depression:</label>
+        <input type="number" name="oldpeak" step="any" required><br>
+        <label>Slope of the ST Segment:</label>
+        <input type="number" name="slp" step="any" required><br>
+        <label>Number of Major Vessels (0-3):</label>
+        <input type="number" name="caa" step="any" required><br>
+        <label>Thalassemia (3 = Normal, 6 = Fixed Defect, 7 = Reversible Defect):</label>
+        <input type="number" name="thall" step="any" required><br>
+        <button type="submit">Predict</button>
+    </form>
+    
+    <!-- Display the prediction result if available -->
+    <h2>{{ prediction_text }}</h2>
+</body>
+</html>

@@ -1,0 +1,30 @@
+@app.route('/predict', methods=['POST'])
+def predict():
+    # Retrieve form data
+    age = float(request.form['age'])
+    sex = float(request.form['sex'])
+    cp = float(request.form['cp'])
+    trtbps = float(request.form['trtbps'])
+    chol = float(request.form['chol'])
+    fbs = float(request.form['fbs'])
+    restecg = float(request.form['restecg'])
+    thalachh = float(request.form['thalachh'])
+    exng = float(request.form['exng'])
+    oldpeak = float(request.form['oldpeak'])
+    slp = float(request.form['slp'])
+    caa = float(request.form['caa'])
+    thall = float(request.form['thall'])
+    
+    # Combine features into an array for prediction
+    features = np.array([[age, sex, cp, trtbps, chol, fbs, restecg, thalachh, exng, oldpeak, slp, caa, thall]])
+    
+    # Load the model
+    model = pickle.load(open('heart_disease_model.pkl', 'rb'))
+    
+    # Make prediction
+    prediction = model.predict(features)
+
+    # Interpret result
+    output = "No Heart Disease" if prediction[0] == 0 else "Heart Disease"
+    
+    return render_template('index.html', prediction_text=f'Prediction: {output}')
