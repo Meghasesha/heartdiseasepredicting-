@@ -1,45 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart Disease Prediction</title>
-    <!-- Link to the favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
-<body>
-    <h1>Heart Disease Prediction</h1>
-    <form action="/predict" method="post">
-        <label>Age:</label>
-        <input type="number" name="age" step="any" required><br>
-        <label>Sex (1 = Male, 0 = Female):</label>
-        <input type="number" name="sex" step="any" required><br>
-        <label>Chest Pain Type:</label>
-        <input type="number" name="cp" step="any" required><br>
-        <label>Resting Blood Pressure:</label>
-        <input type="number" name="trtbps" step="any" required><br>
-        <label>Cholesterol:</label>
-        <input type="number" name="chol" step="any" required><br>
-        <label>Fasting Blood Sugar (1 = True, 0 = False):</label>
-        <input type="number" name="fbs" step="any" required><br>
-        <label>Resting ECG:</label>
-        <input type="number" name="restecg" step="any" required><br>
-        <label>Max Heart Rate Achieved:</label>
-        <input type="number" name="thalachh" step="any" required><br>
-        <label>Exercise-Induced Angina (1 = Yes, 0 = No):</label>
-        <input type="number" name="exng" step="any" required><br>
-        <label>ST Depression:</label>
-        <input type="number" name="oldpeak" step="any" required><br>
-        <label>Slope of the ST Segment:</label>
-        <input type="number" name="slp" step="any" required><br>
-        <label>Number of Major Vessels (0-3):</label>
-        <input type="number" name="caa" step="any" required><br>
-        <label>Thalassemia (3 = Normal, 6 = Fixed Defect, 7 = Reversible Defect):</label>
-        <input type="number" name="thall" step="any" required><br>
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Heart Disease Prediction{% endblock %}
+
+{% block content %}
+<h2>Heart Disease Prediction</h2>
+
+<form action="{{ url_for('predict') }}" method="post">
+    <fieldset>
+        <legend>Enter Your Details:</legend>
+
+        <label for="age">Age:</label><br>
+        <input type="number" id="age" name="age" min="1" max="120" required><br><br>
+
+        <label for="sex">Sex:</label><br>
+        <select id="sex" name="sex" required>
+            <option value="" disabled selected>Select your sex</option>
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select><br><br>
+
+        <label for="cp">Chest Pain Type:</label><br>
+        <select id="cp" name="cp" required>
+            <option value="" disabled selected>Select chest pain type</option>
+            <option value="0">Typical Angina</option>
+            <option value="1">Atypical Angina</option>
+            <option value="2">Non-anginal Pain</option>
+            <option value="3">Asymptomatic</option>
+        </select><br><br>
+
+        <label for="trtbps">Resting Blood Pressure (mm Hg):</label><br>
+        <input type="number" id="trtbps" name="trtbps" min="80" max="200" required><br><br>
+
+        <label for="chol">Cholesterol (mg/dl):</label><br>
+        <input type="number" id="chol" name="chol" min="100" max="600" required><br><br>
+
+        <label for="fbs">Fasting Blood Sugar &gt; 120 mg/dl:</label><br>
+        <select id="fbs" name="fbs" required>
+            <option value="" disabled selected>Select option</option>
+            <option value="1">True</option>
+            <option value="0">False</option>
+        </select><br><br>
+
+        <label for="restecg">Resting ECG Results:</label><br>
+        <select id="restecg" name="restecg" required>
+            <option value="" disabled selected>Select ECG result</option>
+            <option value="0">Normal</option>
+            <option value="1">ST-T Wave Abnormality</option>
+            <option value="2">Left Ventricular Hypertrophy</option>
+        </select><br><br>
+
+        <label for="thalachh">Max Heart Rate Achieved:</label><br>
+        <input type="number" id="thalachh" name="thalachh" min="60" max="220" required><br><br>
+
+        <label for="exng">Exercise-Induced Angina:</label><br>
+        <select id="exng" name="exng" required>
+            <option value="" disabled selected>Select option</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br><br>
+
+        <label for="oldpeak">ST Depression Induced by Exercise:</label><br>
+        <input type="number" id="oldpeak" name="oldpeak" step="0.1" min="0" max="10" required><br><br>
+
+        <label for="slp">Slope of the Peak Exercise ST Segment:</label><br>
+        <select id="slp" name="slp" required>
+            <option value="" disabled selected>Select slope</option>
+            <option value="0">Upsloping</option>
+            <option value="1">Flat</option>
+            <option value="2">Downsloping</option>
+        </select><br><br>
+
+        <label for="caa">Number of Major Vessels Colored by Fluoroscopy (0-3):</label><br>
+        <input type="number" id="caa" name="caa" min="0" max="3" required><br><br>
+
+        <label for="thall">Thalassemia:</label><br>
+        <select id="thall" name="thall" required>
+            <option value="" disabled selected>Select thalassemia type</option>
+            <option value="1">Normal</option>
+            <option value="2">Fixed Defect</option>
+            <option value="3">Reversible Defect</option>
+        </select><br><br>
+
         <button type="submit">Predict</button>
-    </form>
-    
-    <!-- Display the prediction result if available -->
-    <h2>{{ prediction_text }}</h2>
-</body>
-</html>
+    </fieldset>
+</form>
+
+{% if prediction_text %}
+    <h3>{{ prediction_text }}</h3>
+{% endif %}
+{% endblock %}
